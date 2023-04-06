@@ -13,6 +13,7 @@ public class UserModel {
       this.thumbnailUrl = thumbnailUrl;
    }
 
+
    public int getAlbumId() {
       return albumId;
    }

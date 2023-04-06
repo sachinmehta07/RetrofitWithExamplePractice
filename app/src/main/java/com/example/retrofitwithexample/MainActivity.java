@@ -36,9 +36,24 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                Log.d("msg", "onFailure: "+t.getLocalizedMessage());
+               // Log.d("msg", "onFailure: "+t.getLocalizedMessage());
             }
         });
+
+
+        UserModel newUser = new UserModel(1, 123, "New User", "https://example.com/new-user", "https://example.com/new-user-thumbnail");
+       RetrofitInstance.instance().apiInterface.createUser(newUser).enqueue(new Callback<UserModel>() {
+           @Override
+           public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+               Log.d("msg", "onResponse: ");
+           }
+           @Override
+           public void onFailure(Call<UserModel> call, Throwable t) {
+               Log.d("msg", "onFailure: ");
+
+           }
+       });
+
 
     }
 }

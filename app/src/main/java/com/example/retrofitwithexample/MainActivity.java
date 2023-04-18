@@ -1,5 +1,4 @@
 package com.example.retrofitwithexample;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
-
+        RetrofitInstance.instance().Myservice(this);
         RetrofitInstance.instance().apiInterface.getUser().enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -39,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
                // Log.d("msg", "onFailure: "+t.getLocalizedMessage());
             }
         });
-
-
         UserModel newUser = new UserModel(1, 123, "New User", "https://example.com/new-user", "https://example.com/new-user-thumbnail");
        RetrofitInstance.instance().apiInterface.createUser(newUser).enqueue(new Callback<UserModel>() {
            @Override
@@ -53,7 +50,5 @@ public class MainActivity extends AppCompatActivity {
 
            }
        });
-
-
     }
 }

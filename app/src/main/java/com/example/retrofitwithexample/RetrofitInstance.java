@@ -1,5 +1,19 @@
 package com.example.retrofitwithexample;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -8,10 +22,48 @@ public class RetrofitInstance {
 
     ApiInterface apiInterface;
 
+    private Context context;
+
+    public void Myservice(Context context) {
+        this.context = context;
+    }
+
+    OkHttpClient client = new OkHttpClient().newBuilder()
+
+//            .addInterceptor(new Interceptor() {
+//                @Override
+//                public Response intercept(Chain chain) throws IOException {
+//                    Request request = chain.request().newBuilder()
+//                            .build();
+//                    Response response = null;
+//                    try {
+//                        response = chain.withConnectTimeout(15, TimeUnit.SECONDS)
+//                                .withReadTimeout(15, TimeUnit.SECONDS)
+//                                .proceed(request);
+//                    } catch (SocketTimeoutException e) {
+//                        // Request timed out, display Toast message
+//                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Log.d("msg", "reqTimeOut: ");
+//                                Toast.makeText(context, "Request timed out", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                    return response;
+//                }
+//            })
+
+            .connectTimeout(15, TimeUnit.SECONDS) // set connection timeout to 15 seconds
+            .readTimeout(30, TimeUnit.SECONDS) // set read timeout to 30 seconds
+            .writeTimeout(30, TimeUnit.SECONDS) // set write timeout to 30 seconds
+            .build();
+
     RetrofitInstance(){
-            String api = "https://jsonplaceholder.typicode.com";
+            String api = "https://jsonplaceholder.typicode.";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(api)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
